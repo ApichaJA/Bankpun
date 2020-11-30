@@ -1,17 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Game {
+public class Game implements ActionListener{
     private JFrame frame;
-    private JPanel menubar, menuGroup, menuText;
+    private JPanel mainFrame, menuGroup, menuText, showScore;
     private JButton play, score, exit;
+    private JLabel txtScore;
+
     public Game() {
         System.out.println("Let's Go!");
         frame = new JFrame("Bank Pun");
-        menubar = new JPanel();
+
+        //Menu Frame
+        mainFrame = new JPanel();
         menuGroup = new JPanel();
         menuText = new JPanel();
-        menubar.setLayout(new BorderLayout());
+        mainFrame.setLayout(new BorderLayout());
         menuText.setLayout(new GridLayout(3, 1));
         menuGroup.setLayout(new FlowLayout());
         menuText.add(play = new JButton("Play"));
@@ -19,14 +25,46 @@ public class Game {
         menuText.add(exit = new JButton("Exit"));
         menuText.setBackground(Color.gray);
         menuGroup.setBackground(Color.gray);
-//      menuText.setBorder(BorderFactory.createEmptyBorder(100,0, 10, 0));
         menuGroup.add(menuText);
-        menubar.add(menuGroup, BorderLayout.WEST);
+        mainFrame.add(menuGroup, BorderLayout.WEST);
+        play.addActionListener(this);
+        score.addActionListener(this);
+        exit.addActionListener(new ActionHandler());
+        mainFrame.setVisible(true);
 
-        frame.add(menubar);
+
+        //Show Score Frame
+        showScore = new JPanel();
+        showScore.setLayout(new FlowLayout());
+        txtScore = new JLabel("All Player Score");
+        showScore.add(txtScore);
+        showScore.setVisible(false);
+        mainFrame.add(showScore);
+
+
+        //Main Frame
+        frame.add(mainFrame);
         frame.setSize(640, 480);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+    }
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(play)){
+            new inGame();
+        }
+        if(e.getSource().equals(score)){
+            System.out.println("Show Score");
+            showScore.setVisible(true);
+        }
+
+        }
+
+    private class ActionHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
     }
 }
