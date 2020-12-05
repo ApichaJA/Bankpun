@@ -1,5 +1,3 @@
-package GameStateManager;
-
 public abstract class GameState {
 
     protected GameStateManager gsm;

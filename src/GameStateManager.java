@@ -1,5 +1,3 @@
-package GameStateManager;
-
 import java.util.ArrayList;
 
 public class GameStateManager {
@@ -8,14 +6,14 @@ public class GameStateManager {
     private int currentState;
 
     public static final int MENUSTATE = 0;
-    public static final int LEVEL1STATE = 1;
+    public static final int INGAME = 1;
 
     public GameStateManager(){
 
         gameStates = new ArrayList<GameState>();
 
         currentState = MENUSTATE;
-        gameStates.add(new ManuState(this));
+        gameStates.add(new MenuState(this));
 
     }
 
@@ -33,7 +31,7 @@ public class GameStateManager {
     }
 
     public void keyPressed(int k){
-        gameStates.get(currentState).keyPressedd(k);
+        gameStates.get(currentState).keyPressed(k);
     }
 
     public void keyReleased(int k){
