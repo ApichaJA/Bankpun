@@ -1,19 +1,22 @@
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class GameStateManager {
+public class GameStateManager{
 
     private ArrayList<GameState> gameStates;
     private int currentState;
 
-    public static final int MENUSTATE = 0;
-    public static final int INGAME = 1;
+    //public static final int MENUSTATE = 0;
+    public static final int INGAME = 0;
 
     public GameStateManager(){
 
         gameStates = new ArrayList<GameState>();
 
-        currentState = MENUSTATE;
-        gameStates.add(new MenuState(this));
+        currentState = INGAME;
+        //gameStates.add(new MenuState(this));
         gameStates.add(new InGameState(this));
 
     }
@@ -28,7 +31,7 @@ public class GameStateManager {
     }
 
     public void draw(java.awt.Graphics2D g){
-        gameStates.get(currentState).paintComponent(g);
+        gameStates.get(currentState).draw(g);
     }
 
     public void keyPressed(int k){
@@ -38,5 +41,4 @@ public class GameStateManager {
     public void keyReleased(int k){
         gameStates.get(currentState).keyReleased(k);
     }
-
 }

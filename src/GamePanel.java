@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener{
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener{
 
     public static final int WIDTH = 1380;
     public static final int HEIGHT = 820;
@@ -17,7 +17,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     private GameStateManager gsm;
 
-    public GamePanel() {
+    private Rectangle mouseRact;
+
+    public GamePanel(){
         super();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
@@ -29,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         if (thread == null){
             thread = new Thread(this);
             addKeyListener(this);
+            addMouseListener(this);
             thread.start();
         }
     }
@@ -47,7 +50,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     public void run(){
         init();
-
         long start;
         long elapsed;
         long wait;
@@ -75,6 +77,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         }
     }
 
+    public long getWait(){
+        return targetTime;
+    }
+
     private void update(){
         gsm.update();
     }
@@ -84,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private void drawToScreen(){
         Graphics g2 = getGraphics();
         g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
+
         g2.dispose();
     }
 
@@ -95,4 +102,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         gsm.keyReleased(key.getKeyCode());
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mouseRact = new Rectangle(e.getX(), e.getY(), 20, 20);
+        if (mouseRact.intersects(new Rectangle(600 % (GamePanel.WIDTH), 140 % (GamePanel.HEIGHT), 350,350))){
+            new popUp(1);
+        }
+    }
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

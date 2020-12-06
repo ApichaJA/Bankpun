@@ -37,23 +37,21 @@ public class MenuState extends GameState{
 
     public void init(){}
     public void update(){}
-    public void paintComponent(Graphics2D g){
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        bg.draw(g2);
-        g2.setColor(titleColor);
-        g2.setFont(titleFont);
-        g2.drawString("Bankpun", 100, 100);
+    public void draw(Graphics2D g){
+        bg.draw(g);
+        g.setColor(titleColor);
+        g.setFont(titleFont);
+        g.drawString("Bankpun", 100, 100);
 
-        g2.setFont(font);
+        g.setFont(font);
         for (int i = 0; i < options.length; i++){
             if (i == currentChoice){
-                g2.setColor(Color.BLACK);
+                g.setColor(Color.BLACK);
             }
             else {
-                g2.setColor(Color.RED);
+                g.setColor(Color.RED);
             }
-            g2.drawString(options[i], 100, 220 + i * 70);
+            g.drawString(options[i], 100, 220 + i * 70);
         }
     }
     private void select(){
