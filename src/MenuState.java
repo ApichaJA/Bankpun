@@ -21,8 +21,7 @@ public class MenuState extends GameState{
         this.gsm = gsm;
 
         try{
-            bg = new Background("/open.png", 1);
-            bg.setVector(-0.1, 0);
+            bg = new Background("/open.png");
 
             titleColor = new Color(128, 0, 0);
             titleFont = new Font("Bankpun", Font.PLAIN, 64);
@@ -32,34 +31,34 @@ public class MenuState extends GameState{
 
         }
         catch (Exception e){
-
+            System.out.println(e);
         }
     }
 
     public void init(){}
-    public void update(){
-        bg.update();
-    }
-    public void draw(Graphics2D g){
-        bg.draw(g);
-        g.setColor(titleColor);
-        g.setFont(titleFont);
-        g.drawString("Bankpun", 100, 100);
+    public void update(){}
+    public void paintComponent(Graphics2D g){
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        bg.draw(g2);
+        g2.setColor(titleColor);
+        g2.setFont(titleFont);
+        g2.drawString("Bankpun", 100, 100);
 
-        g.setFont(font);
+        g2.setFont(font);
         for (int i = 0; i < options.length; i++){
             if (i == currentChoice){
-                g.setColor(Color.BLACK);
+                g2.setColor(Color.BLACK);
             }
             else {
-                g.setColor(Color.RED);
+                g2.setColor(Color.RED);
             }
-            g.drawString(options[i], 100, 220 + i * 70);
+            g2.drawString(options[i], 100, 220 + i * 70);
         }
     }
     private void select(){
         if (currentChoice == 0){
-
+            gsm.setState(GameStateManager.INGAME);
         }
         if (currentChoice == 1){
 
@@ -83,5 +82,4 @@ public class MenuState extends GameState{
             }
         }
     }
-    public void keyReleased(int k){}
 }

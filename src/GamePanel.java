@@ -7,11 +7,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     public static final int WIDTH = 1380;
     public static final int HEIGHT = 820;
-    public static final int SCALE = 1;
 
     private Thread thread;
     private boolean running;
-    private int FPS = 60;
     private long targetTime = 1000 / 60;
 
     private BufferedImage image;
@@ -21,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     public GamePanel() {
         super();
-        setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         requestFocus();
     }
@@ -85,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     }
     private void drawToScreen(){
         Graphics g2 = getGraphics();
-        g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+        g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
         g2.dispose();
     }
 
