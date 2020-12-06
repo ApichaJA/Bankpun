@@ -5,19 +5,20 @@ import java.awt.image.BufferedImage;
 public class InGameState extends GameState{
     private BufferedImage human;
     private BufferedImage window;
+    private BufferedImage listItem;
     private Background bg;
     private Background counter;
 
+
     private String[] item = {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
+            "baget",
+            "cakeblue",
+            "cakefrozen",
+            "donut",
+            "cupcakestr",
+            "milktae",
+            "pie",
+            "whitebread",
     };
 
     private Font font;
@@ -25,6 +26,10 @@ public class InGameState extends GameState{
     public InGameState(GameStateManager gsm){
         this.gsm = gsm;
         try{
+            //for (int j = 0; j < item.length; j++){
+            listItem = ImageIO.read(
+                        getClass().getResourceAsStream("/"+item[1]+".png"));
+            //}
             window = ImageIO.read(
                     getClass().getResourceAsStream("/window.png"));
             bg = new Background("/inGame.png");
@@ -62,15 +67,14 @@ public class InGameState extends GameState{
             font = new Font("Arial", Font.PLAIN, 48);
             g.setFont(font);
             g.setColor(Color.RED);
-            int itemHposition = 50;
-            int itemWposition = 80;
+            int itemHposition = 0;
+            int itemWposition = 0;
             for (int i = 0; i < item.length; i++){
-                if (i%3==0){
-                    itemHposition = itemHposition+=200;
-                    itemWposition = 80;
+                if (i%2==0){
+                    itemHposition += 120;
+                    itemWposition = 95;
                 }
-
-                g.drawString(item[i], itemWposition+= 200, itemHposition);
+                g.drawImage(listItem, itemWposition+= 200, itemHposition, 200,200, null);
             }
         }
         if (popUp.showSelect == 2){
