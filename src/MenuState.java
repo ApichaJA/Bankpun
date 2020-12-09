@@ -1,5 +1,9 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class MenuState extends GameState{
 
@@ -19,7 +23,7 @@ public class MenuState extends GameState{
     public MenuState(GameStateManager gsm){
 
         this.gsm = gsm;
-
+        GameControler.playsound("mainSound");
         try{
             bg = new Background("/open.png");
 
@@ -27,8 +31,6 @@ public class MenuState extends GameState{
             titleFont = new Font("Bankpun", Font.PLAIN, 64);
 
             font = new Font("Arial", Font.PLAIN, 48);
-
-
         }
         catch (Exception e){
             System.out.println(e);

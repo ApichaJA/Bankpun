@@ -28,7 +28,6 @@ public class itemList {
                 "baget",
                 "cakeblue",
                 "cakefrozen",
-                "cakefrozen",
                 "cakestr",
                 "cakevanilla",
                 "COFFEE",

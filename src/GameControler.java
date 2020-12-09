@@ -1,5 +1,9 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class GameControler extends GameState {
     private static int myScore = 0;
@@ -8,7 +12,7 @@ public class GameControler extends GameState {
 
     private static Rectangle mouseRact;
 
-    private static int myStamina = 0;
+    private static int myStamina = 1;
 
     public static int setScore(int status){
         if (status == 1) {
@@ -45,12 +49,11 @@ public class GameControler extends GameState {
 
     public static int setStamina(int num){
         if (beginGame) {
-            myStamina+=20;
-            if (myStamina == 700)
+            myStamina+=30;
+            if (myStamina > 700)
                 beginGame = false;
 
         }
-
         if(!beginGame && num + myStamina > 700)
             myStamina = 700;
         else if(!beginGame)
@@ -94,13 +97,13 @@ public class GameControler extends GameState {
                 }
                 if (compareCount == InGameState.countOrderCus){
                     GameControler.setStamina(100);
-                    //System.out.println(true);
+                    playsoundShort("correct");
                 }
                 else{
                     GameControler.setStamina(-50);
+                    playsoundShort("incorrect");
                     if (GameControler.getScore() - 50 >= 0)
                         GameControler.setScore(0);
-                    //System.out.println(false);
                 }
                 popUp.showSelect = 2;
             }
@@ -143,6 +146,7 @@ public class GameControler extends GameState {
         }
         if (popUp.showSelect == 3){
             if (mouseRact.intersects(new Rectangle(430, 300, 80, 200))){
+                GameControler.playsoundShort("Delivery");
                 InGameState.alertObject = false;
                 popUp.showSelect = 0;
                 animate.Delivery("Go");
@@ -150,6 +154,34 @@ public class GameControler extends GameState {
                 animate.notiPhone();
                 animate.alertObject();
             }
+        }
+    }
+    public static void playsound(String fil){
+        try{
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Resources/"+fil+".wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void playsoundShort(String fil){
+        try{
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Resources/"+fil+".wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-5.0f);
+            clip.start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

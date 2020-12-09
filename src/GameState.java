@@ -1,6 +1,6 @@
 public class GameState {
 
-    protected GameStateManager gsm;
+    protected static GameStateManager gsm;
 
     public void init(){};
     public void update(){
@@ -8,6 +8,4 @@ public class GameState {
     public void draw(java.awt.Graphics2D g){};
     public void keyPressed(int k){};
     public void keyReleased(int k){};
-    public static void mousePressed(int x, int y){};
-
 }

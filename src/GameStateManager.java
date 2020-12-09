@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameStateManager{
 
@@ -10,6 +11,8 @@ public class GameStateManager{
 
     public static final int MENUSTATE = 0;
     public static final int INGAME = 1;
+    public static final int TIMEOUT = 2;
+    public static final int SCORE = 3;
 
     public GameStateManager(){
 
@@ -18,16 +21,14 @@ public class GameStateManager{
         currentState = MENUSTATE;
         gameStates.add(new MenuState(this));
         gameStates.add(new InGameState(this));
-
-
+        gameStates.add(new GameTimeout(this));
 
     }
 
     public void setState(int state){
-        currentState = state;
-        if (state == 1)
-        gameStates.get(currentState).init();
-
+        System.out.println(state);
+            currentState = state;
+            gameStates.get(currentState).init();
     }
 
     public void update(){
@@ -47,6 +48,9 @@ public class GameStateManager{
     }
 
     public void mousePressed(int x, int y){
+        if (currentState == 1)
         GameControler.mousePressed(x, y);
+        if (currentState == 2)
+        GameTimeout.mousePressed(x, y);
     }
 }

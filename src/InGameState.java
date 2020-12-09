@@ -64,9 +64,11 @@ public class InGameState extends GameState{
         this.gsm = gsm;
         randomItem();
         init();
+
     }
 
     public void init(){
+
         try{
             for (int j = 0; j < item.length; j++){
                 listItem[j] = ImageIO.read(
@@ -88,7 +90,7 @@ public class InGameState extends GameState{
                     getClass().getResourceAsStream("/window.png"));
             submit = ImageIO.read(
                     getClass().getResourceAsStream("/submit.png"));
-            bg = new Background("/inGame.png");
+
             human = ImageIO.read(
                     getClass().getResourceAsStream("/human.png"));
             car = ImageIO.read(
@@ -98,6 +100,7 @@ public class InGameState extends GameState{
             phoneTab = ImageIO.read(
                     getClass().getResourceAsStream("/PhoneTab.png"));
 
+            bg = new Background("/inGame.png");
             counter = new Background("/counter.png");
             signPopup = new Background("/signPopup.png");
             comPopup = new Background("/comPopup.png");
@@ -109,6 +112,9 @@ public class InGameState extends GameState{
 
     public void update(){
         GameControler.setStamina(-1);
+        if (GameControler.getStamina() < 10) {
+            gsm.setState(GameStateManager.TIMEOUT);
+        }
     }
 
     public void randomNum(){
@@ -125,7 +131,7 @@ public class InGameState extends GameState{
             int count = 0;
             for (int randItem = 0; randItem < 8; randItem++){
                 count++;
-                String thisItem = itemList.pickItem(rand.nextInt(16));
+                String thisItem = itemList.pickItem(rand.nextInt(15));
                 int toOrder = rand.nextInt(2);
                 if (!Arrays.stream(itemStack).anyMatch(thisItem::equals)){
                     item[randItem] = thisItem;
@@ -292,7 +298,7 @@ public class InGameState extends GameState{
                 }
                 g.setFont(font);
                 if (wrongClick[0] != 0) {
-                    //Press Wrong Sound here na ja
+                    GameControler.playsoundShort("incorrect");
                     wrongClick[0]=0;
                     wrongClick[1]=0;
                 }
@@ -322,6 +328,7 @@ public class InGameState extends GameState{
             }
             if (alertObject && popUp.showSelect == 3) {
                 signPopup.draw(g);
+
             }
         }
     }
