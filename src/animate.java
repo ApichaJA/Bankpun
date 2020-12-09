@@ -24,16 +24,7 @@ public class animate {
         }
     }
     public static void upScore(){
-        InGameState.ScoreStack+=400;
-        for (double upScore = InGameState.TotalScore; upScore < InGameState.ScoreStack; upScore++){
-            InGameState.TotalScore++;
-            try{
-                Thread.sleep(1);
-            }
-            catch (Exception err){
-                err.printStackTrace();
-            }
-        }
+        GameControler.setScore(1);
         Delivery("Back");
     }
 
@@ -64,4 +55,6 @@ public class animate {
         }
         InGameState.newOrder = false;
     }
+
+
 }

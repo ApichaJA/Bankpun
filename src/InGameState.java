@@ -15,6 +15,7 @@ public class InGameState extends GameState{
     private BufferedImage scoreTap;
     private BufferedImage phoneTab;
 
+
     static BufferedImage[] listItem = new BufferedImage[9];
     public static int[][] ListItemGen = new int[9][3];
 
@@ -34,8 +35,6 @@ public class InGameState extends GameState{
 
     public static boolean alertObject = true;
 
-    public static double ScoreStack = 0;
-    public static double TotalScore = 0;
 
     public static int countOrderCus = 0;
 
@@ -54,7 +53,6 @@ public class InGameState extends GameState{
     private Background signPopup;
     private Background comPopup;
 
-
     public int random_int1, random_int2, random_int3;
     public int randomChoice;
 
@@ -63,8 +61,12 @@ public class InGameState extends GameState{
     private Font fontHeadPrice;
 
     public InGameState(GameStateManager gsm){
-        randomItem();
         this.gsm = gsm;
+        randomItem();
+        init();
+    }
+
+    public void init(){
         try{
             for (int j = 0; j < item.length; j++){
                 listItem[j] = ImageIO.read(
@@ -105,18 +107,8 @@ public class InGameState extends GameState{
         }
     }
 
-    public void init(){
-        while(true){
-            try{
-                Thread.sleep(new GamePanel().getWait());
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void update(){
+        GameControler.setStamina(-1);
     }
 
     public void randomNum(){
@@ -157,15 +149,20 @@ public class InGameState extends GameState{
         g.drawImage(car, posiX, posiY, 1380,820, null);
 
 
-        //Show Score
+        //Setup Score
         counter.draw(g);
         font = new Font("Arial", Font.PLAIN, 48);
         g.setFont(font);
         g.setColor(Color.BLACK);
         g.drawImage(scoreTap, 0, 0, 1380,820, null);
-        g.drawString(TotalScore+"", 200, 65);
 
-        //Show Order menu{
+        g.drawString(GameControler.getScore()+"", 220, 65);
+        font = new Font("Arial", Font.PLAIN, 18);
+
+        g.setFont(font);
+        g.drawString(String.format("x%1.1f", GameControler.getStack()), 170, 55);
+
+        //Setup Order menu
         int orderListX = 1200;
         g.drawImage(phoneTab, 200, 0, 1180,620, null);
                 for (int cusItm = 0; cusItm < CustomerItem.length; cusItm++) {
@@ -177,8 +174,18 @@ public class InGameState extends GameState{
             g.drawImage(phoneImg[spikePhone],200, 0, 1180, 620, null);
         }
 
+        //Set stamina
+        g.setColor(Color.WHITE);
+        g.fillRect(650, 700, 700, 50);
+        g.setColor(Color.CYAN);
+        if (GameControler.getStamina() < 400)
+            g.setColor(Color.ORANGE);
+        if (GameControler.getStamina() < 200)
+            g.setColor(Color.RED);
+        g.fillRect(650, 700, GameControler.getStamina(), 50);
 
-        // Computer Alert
+        // Computer Noti
+        g.setColor(Color.WHITE);
         if (alertObject && popUp.showSelect == 0) {
             comPopup.draw(g);
             try{
@@ -190,11 +197,9 @@ public class InGameState extends GameState{
                 }
             }
             catch (Exception e){
-
+                e.printStackTrace();
             }
         }
-
-
 
         if (popUp.showSelect == 1){
             alertObject = false;
@@ -282,8 +287,8 @@ public class InGameState extends GameState{
                     correct[1] = sumHposition-15;
                 }
                 if (ran != 0){
-                    wrongans[ran][0] = sumWposition+140;
-                    wrongans[ran][1] = sumHposition;
+                    wrongans[ran][0] = sumWposition+240;
+                    wrongans[ran][1] = sumHposition-15;
                 }
                 g.setFont(font);
                 if (wrongClick[0] != 0) {

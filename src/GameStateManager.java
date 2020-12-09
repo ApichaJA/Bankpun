@@ -8,22 +8,26 @@ public class GameStateManager{
     private ArrayList<GameState> gameStates;
     private int currentState;
 
-    //public static final int MENUSTATE = 0;
-    public static final int INGAME = 0;
+    public static final int MENUSTATE = 0;
+    public static final int INGAME = 1;
 
     public GameStateManager(){
 
         gameStates = new ArrayList<GameState>();
 
-        currentState = INGAME;
-        //gameStates.add(new MenuState(this));
+        currentState = MENUSTATE;
+        gameStates.add(new MenuState(this));
         gameStates.add(new InGameState(this));
+
+
 
     }
 
     public void setState(int state){
         currentState = state;
+        if (state == 1)
         gameStates.get(currentState).init();
+
     }
 
     public void update(){
@@ -40,5 +44,9 @@ public class GameStateManager{
 
     public void keyReleased(int k){
         gameStates.get(currentState).keyReleased(k);
+    }
+
+    public void mousePressed(int x, int y){
+        GameControler.mousePressed(x, y);
     }
 }
